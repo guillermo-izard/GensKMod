@@ -13,3 +13,5 @@ src/**.opt
 src/**.plg
 src/**.aps
 src/**.vcxproj.filters
+src/Starscream/Main68k/MainStar.vcxproj.user
+src/Starscream/Sub68k/SubStar.vcxproj.user
