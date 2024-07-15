@@ -1640,33 +1640,60 @@ BOOL Init(HINSTANCE hInst, int nCmdShow)
 
 void End_GDBStubs(void)
 {
-	if (KConf.useGDB == FALSE)	return;
+				if ( KConf.useGDB == FALSE ) {
+								return;
+				}
 
-    g_gdb_main68k_target->Disconnect();
-    g_gdb_sub68k_target->Disconnect();
-    g_gdb_master_sh2_target->Disconnect();
-    g_gdb_slave_sh2_target->Disconnect();
+				if ( g_gdb_main68k_target != nullptr ) {
+								g_gdb_main68k_target->Disconnect();
+				}
 
-    g_gdb_slave_sh2_server->Terminate();
-    g_gdb_master_sh2_server->Terminate();
-    g_gdb_sub68k_server->Terminate();
-    g_gdb_main68k_server->Terminate();
+				if ( g_gdb_sub68k_target != NULL ) {
+								g_gdb_sub68k_target->Disconnect();
+				}
 
-    delete g_gdb_slave_sh2_server;
-    delete g_gdb_master_sh2_server;
-    delete g_gdb_sub68k_server;
-    delete g_gdb_main68k_server;
+				if ( g_gdb_master_sh2_target != NULL ) {
+								g_gdb_master_sh2_target->Disconnect();
+				}
+
+				if ( g_gdb_slave_sh2_target != NULL ) {
+								g_gdb_slave_sh2_target->Disconnect();
+				}
+
+    if ( g_gdb_slave_sh2_server != NULL )
+				{
+        g_gdb_slave_sh2_server->Terminate();
+        delete g_gdb_slave_sh2_server;
+    }
+				
+    if ( g_gdb_master_sh2_server != NULL )
+				{
+        g_gdb_master_sh2_server->Terminate();
+        delete g_gdb_master_sh2_server;
+    }
+				
+    if ( g_gdb_sub68k_server != NULL )
+				{
+        g_gdb_sub68k_server->Terminate();
+        delete g_gdb_sub68k_server;
+    }
+				
+				if ( g_gdb_main68k_server != NULL )
+				{
+								g_gdb_main68k_server->Terminate();
+								delete g_gdb_main68k_server;
+				}
 }
 
 void End_All(void)
 {
-	Free_Rom(Game);
+				Free_Rom(Game);
     End_GFX();
-	End_Input();
-	YM2612_End();
-	End_Sound();
-	End_CD_Driver();
-	End_Network();
+				End_Input();
+				YM2612_End();
+				End_Sound();
+				End_CD_Driver();
+				End_Network();
 
 #ifdef GENS_KMOD
     End_GDBStubs();
